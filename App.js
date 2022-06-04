@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+// Screen Imports
+import Home from './screens/Home';
+import Details from './screens/Details';
+import HelperUI from './screens/HelperUI';
+import InDevelopment from './screens/inprogress';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "transparent"
+  }
+}
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  const [loaded] = useFonts({
+    FredokaOne: require('./assets/fonts/FredokaOne.ttf')
+  });
+
+  if (!loaded) return null;
+  return(
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Screen component={Home} name="Home"/>
+        <Stack.Screen component={Details} name="Details"/>
+        <Stack.Screen component={HelperUI} name="HelperUI"/>
+        <Stack.Screen component={InDevelopment} name="inDevelopment"/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
