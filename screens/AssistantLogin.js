@@ -14,7 +14,6 @@ const AssistantLogin = ({route}) => {
 
   const {io} = route.params
 
-
   // submit func
   const submit = () => {
     if (userName == "" || password == "")

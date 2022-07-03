@@ -1,20 +1,14 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity, LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
 
-const Details = ({route}) => {
+const AssistantHelpingUI = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-  const {io} = route.params
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('BlindAssistType', {io})}>
-        <Image style={styles.helpLogo} source={require('../assets/images/lookForHelp.gif')}/>
-      </TouchableOpacity>
-      <Text adjustsFontSizeToFit style={styles.text1}  onLongPress={() => navigation.navigate('MapPage')}> Long press the middle of the screen to request assistance from helpers!  </Text>
+        <Image style={styles.helpLogo} source={require('../assets/images/helpProgress.gif')}/>
+        <Text style={styles.text1}> You are currently helping somebody! {'\n'} Wait for them to confirm!</Text>
     </SafeAreaView>
   )
 }
@@ -23,7 +17,7 @@ const styles = StyleSheet.create({
     container:{
       flex: 1,
       padding: 24,
-      backgroundColor: '#e3e2e2',
+      backgroundColor: '#ffde5e',
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     text1: {
@@ -32,9 +26,6 @@ const styles = StyleSheet.create({
       fontFamily: 'FredokaOne',
       marginTop: 20,
       marginBottom: 'auto',
-      textShadowColor: 'rgba(0, 0, 0, 0.10)',
-      textShadowOffset: {width: -1, height: 1},
-      textShadowRadius: 10,
     },
     helpLogo: {
       marginTop: 'auto',
@@ -44,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Details
+export default AssistantHelpingUI

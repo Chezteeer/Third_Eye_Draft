@@ -5,18 +5,14 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-const BlindAssistType = ({route}) => {
+const SearchAssistant = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const {io} = route.params
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.helpLogo} source={require('../assets/images/blindassisttype1.gif')}/>
-      <Text adjustsFontSizeToFit style={styles.text1}> Swipe depending what type of assistance you require.  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Up: Chores  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Down: Buy Stuff  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Left: Pickup or Delivery  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Right: Others  </Text>
+      <Image style={styles.helpLogo} source={require('../assets/images/searchAssistant.gif')}/>
+      <Text adjustsFontSizeToFit style={styles.text1}> Searching for your assistant nearby... </Text>
     </SafeAreaView>
   )
 }
@@ -25,7 +21,7 @@ const styles = StyleSheet.create({
     container:{
       flex: 1,
       padding: 24,
-      backgroundColor: '#b6d390',
+      backgroundColor: '#fa5b43',
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     text1: {
@@ -34,9 +30,10 @@ const styles = StyleSheet.create({
       fontFamily: 'FredokaOne',
       marginTop: 20,
       marginBottom: 'auto',
-      textShadowColor: 'rgba(0, 0, 0, 0.10)',
+      textShadowColor: 'rgba(0, 0, 0, 0.30)',
       textShadowOffset: {width: -1, height: 1},
       textShadowRadius: 10,
+      color: '#FFF',
     },
     helpLogo: {
       marginTop: 'auto',
@@ -54,4 +51,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BlindAssistType 
+export default SearchAssistant
