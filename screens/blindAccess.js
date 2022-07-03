@@ -1,16 +1,20 @@
 import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity, LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
-const Details = () => {
+const Details = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
+  const {io} = route.params
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('AssistantLogin')}>
+      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('AssistantLogin', {io})}>
         <Image style={styles.helpLogo} source={require('../assets/images/helphand.png')}/>
       </TouchableOpacity>
-      <Text adjustsFontSizeToFit style={styles.text1}  onLongPress={() => navigation.navigate('AssistantLogin')}> Long press the middle of the screen to request assistance from helpers!  </Text>
+      <Text adjustsFontSizeToFit style={styles.text1}  onLongPress={() => navigation.navigate('MapPage')}> Long press the middle of the screen to request assistance from helpers!  </Text>
     </SafeAreaView>
   )
 }

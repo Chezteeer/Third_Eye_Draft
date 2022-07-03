@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity} from 'react-native'
+import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from '@react-navigation/native';
 
 const HelperUI = ({route}) => {
@@ -51,6 +52,7 @@ return (
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Name: </Text>
                         <View style={styles.idInfoContainer}>
+                            <Text> Ken </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Sex: </Text>
                         <View style={styles.idInfoContainer}>
@@ -101,8 +103,10 @@ return (
                 
         </View>
         <View>
-        <Image style={styles.gear} source={require('../assets/images/gear.png')}/>
-        <Text style={styles.availabilityText}> This part is under development. </Text>
+            <Text style={styles.availabilityText}> Tap the map to view the  {"\n"} real-time locations of PWDs! </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('MapPage')}>
+                <Image style={styles.gear} source={require('../assets/images/map.png')}/>
+            </TouchableOpacity>
         </View>
     </SafeAreaView>
   )
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     pastelcontainer:{
-        height: '74%',
+        height: '71%',
         backgroundColor: '#DFFFF6',
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
@@ -304,12 +308,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     gear:{
-        width: 64,
-        height: 64,
+        width: 128,
+        height: 128,
         alignSelf: 'center',
-        marginTop: 40,
+        marginTop: 15,
         marginBottom: 'auto',
+    },
+    mapContainer:{
+        width: 350,
+        backgroundColor: 'grey',
+        height: 125,
+        borderRadius: 5,
+        marginTop: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     }
-})
+});
 
 export default HelperUI

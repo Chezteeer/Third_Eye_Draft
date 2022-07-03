@@ -9,6 +9,7 @@ import HelperUI from './screens/HelperUI';
 import InDevelopment from './screens/inprogress';
 import assistantRegister from './screens/AssistantRegister';
 import assistantLogin from './screens/AssistantLogin';
+import mapPage from './screens/MapPage';
 
 const theme = {
   ...DefaultTheme,
@@ -35,6 +36,7 @@ const App = () => {
         <Stack.Screen component={InDevelopment} name="inDevelopment"/>
         <Stack.Screen component={assistantRegister} name="AssistantRegister"/>
         <Stack.Screen component={assistantLogin} name="AssistantLogin"/>
+        <Stack.Screen component={mapPage} name="MapPage"/>
       </Stack.Navigator>
     </NavigationContainer>
   );
