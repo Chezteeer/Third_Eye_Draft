@@ -90,7 +90,8 @@ const navigation = useNavigation(); // Para makapag navigate
             <View style={styles.availableButton}>
                 <Text style={styles.availableButtonText}  onPress={() => navigation.navigate('inDevelopment')}> I'm available! </Text>
             </View>
-                <Text style={styles.availabilityText}> This will allow you to receive requests and earn rewards! </Text>
+                <Text style={styles.availabilityText}> This will allow you to receive {"\n"} requests and earn rewards! </Text>
+                
         </View>
         <View>
         <Image style={styles.gear} source={require('../assets/images/gear.png')}/>

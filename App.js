@@ -4,9 +4,11 @@ import { useFonts } from 'expo-font';
 
 // Screen Imports
 import Home from './screens/Home';
-import Details from './screens/Details';
+import Details from './screens/blindAccess';
 import HelperUI from './screens/HelperUI';
 import InDevelopment from './screens/inprogress';
+import assistantRegister from './screens/AssistantRegister';
+import assistantLogin from './screens/AssistantLogin';
 
 const theme = {
   ...DefaultTheme,
@@ -31,6 +33,8 @@ const App = () => {
         <Stack.Screen component={Details} name="Details"/>
         <Stack.Screen component={HelperUI} name="HelperUI"/>
         <Stack.Screen component={InDevelopment} name="inDevelopment"/>
+        <Stack.Screen component={assistantRegister} name="AssistantRegister"/>
+        <Stack.Screen component={assistantLogin} name="AssistantLogin"/>
       </Stack.Navigator>
     </NavigationContainer>
   );

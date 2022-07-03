@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
 const Details = () => {
@@ -7,8 +7,10 @@ const Details = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.helpLogo} source={require('../assets/images/helphand.png')}/>
-      <Text adjustsFontSizeToFit style={styles.text1}> Double Tap to request help from nearby helpers! </Text>
+      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('AssistantLogin')}>
+        <Image style={styles.helpLogo} source={require('../assets/images/helphand.png')}/>
+      </TouchableOpacity>
+      <Text adjustsFontSizeToFit style={styles.text1}  onLongPress={() => navigation.navigate('AssistantLogin')}> Long press the middle of the screen to request assistance from helpers!  </Text>
     </SafeAreaView>
   )
 }
