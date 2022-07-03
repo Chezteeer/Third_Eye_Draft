@@ -1,16 +1,26 @@
 import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar } from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, LogBox } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import io from "socket.io-client";
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+
+
 
 const Home = () => {
     const navigation = useNavigation(); // Para makapag navigate
+    if (!window.location) {
+        window.navigator.userAgent = 'ReactNative';
+    }
 
   return (
     <SafeAreaView style={styles.container}>
          <Image style={styles.splashLogo} source={require('../assets/images/blind.png')}/>
          <Text style={styles.splashText}> Third Eye </Text>
          <Text adjustsFontSizeToFit style={styles.instructionText} onPress={() => navigation.navigate('Details')}> Swipe Left if you want to seek help.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => navigation.navigate('AssistantRegister')}> Swipe Right if you want to help.</Text>
+         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => navigation.navigate('AssistantRegister', {io})}> Swipe Right if you want to help.</Text>
+         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => ws()}>Test WSs</Text>
     </SafeAreaView>
   )
 };

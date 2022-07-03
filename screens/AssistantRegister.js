@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Keyboard Avoiding Wrapper
 
-const AssistantRegister = () => {
+const AssistantRegister = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const [agree, setAgree] = useState(false);
 
@@ -17,6 +17,8 @@ const AssistantRegister = () => {
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [contactNumber, setcontactNumber] = useState("");
+
+  const {io} = route.params
 
   // Form Submit
   const submit = () => {
@@ -102,7 +104,7 @@ const AssistantRegister = () => {
             </View>
         </View>
 
-        <Text adjustFontSizeToFit style={styles.loginText} onPress={() => navigation.navigate('AssistantLogin')}> Already a registered assistant? {"\n"} Tap here to login.</Text>
+        <Text adjustFontSizeToFit style={styles.loginText} onPress={() => navigation.navigate('AssistantLogin',{io})}> Already a registered assistant? {"\n"} Tap here to login.</Text>
     </View>
     </ScrollView>
   )

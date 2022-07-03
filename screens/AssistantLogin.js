@@ -3,13 +3,16 @@ import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, Scro
 import { useNavigation } from '@react-navigation/native';
 import Checkbox  from 'expo-checkbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import axios from "axios";
 
-const AssistantLogin = () => {
+const AssistantLogin = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-
+  const api = axios.create({baseURL:"http://34.226.92.92:8080"})
   // User Information
   const [userName, setUserName] = useState("");
   const [password, setpassword] = useState("");
+
+  const {io} = route.params
 
 
   // submit func
@@ -18,8 +21,24 @@ const AssistantLogin = () => {
     {
       Alert.alert("Error!", "Some required infos not filled up.");
     }
-    else
-      Alert.alert("All infos filled up!", "Then pass through backend.");
+    else {
+      api.post("/user/login",{username:userName,password}).then(({data}) => {
+        if (data && data.success) {
+
+          const socket = io(`http://34.226.92.92:8080?token=${data.token}`,{transports:["websocket"]})
+
+          socket.on("connect",() => {
+            console.log("connected")
+            navigation.navigate('HelperUI',{
+              socket,
+              token:data.token,
+              details: data.message
+            })
+          })
+
+        }
+      }).catch(error => console.log(error))
+    }
   }
 
   return (

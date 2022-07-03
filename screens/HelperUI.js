@@ -2,9 +2,17 @@ import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
-const HelperUI = () => {
+const HelperUI = ({route}) => {
 const navigation = useNavigation(); // Para makapag navigate
-  return (
+const {token,socket,details} = route.params;
+
+    console.log("UI",token)
+
+    socket.on("data",(data) => {
+        console.log(data);
+    })
+
+return (
     <SafeAreaView styles={styles.container}>
         <View style={styles.pastelcontainer}>
             <View style={styles.userStats}>
@@ -43,7 +51,6 @@ const navigation = useNavigation(); // Para makapag navigate
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Name: </Text>
                         <View style={styles.idInfoContainer}>
-
                         </View>
                         <Text style={styles.idTextInfo}> Sex: </Text>
                         <View style={styles.idInfoContainer}>
