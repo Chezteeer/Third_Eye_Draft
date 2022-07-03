@@ -6,8 +6,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from "axios";
 
 const AssistantLogin = ({route}) => {
+  const baseUrl = "http://34.226.92.92:8080"
+
   const navigation = useNavigation(); // Para makapag navigate
-  const api = axios.create({baseURL:"http://34.226.92.92:8080"})
+  const api = axios.create({baseURL:baseUrl})
   // User Information
   const [userName, setUserName] = useState("");
   const [password, setpassword] = useState("");
@@ -25,7 +27,7 @@ const AssistantLogin = ({route}) => {
       api.post("/user/login",{username:userName,password}).then(({data}) => {
         if (data && data.success) {
 
-          const socket = io(`http://34.226.92.92:8080?token=${data.token}`,{transports:["websocket"]})
+          const socket = io(`${baseUrl}?token=${data.token}`,{transports:["websocket"]})
 
           socket.on("connect",() => {
             console.log("connected")
@@ -35,9 +37,11 @@ const AssistantLogin = ({route}) => {
               details: data.message
             })
           })
-
         }
-      }).catch(error => console.log(error))
+      }).catch(error => {
+        if (error.response.status === 401) Alert.alert("Error!", "Invalid credentials.");
+        else Alert.alert("Error!", "Unknown error occured.");
+      })
     }
   }
 
@@ -70,8 +74,6 @@ const AssistantLogin = ({route}) => {
                 <Text adjustFontSizeToFit style={styles.registerButtonText}> Login </Text>
             </TouchableOpacity>
         </View>
-
-        <Text adjustFontSizeToFit style={styles.loginText} onPress={() => navigation.navigate('HelperUI')}> Debug login. </Text>
     </ScrollView>
   )
 }

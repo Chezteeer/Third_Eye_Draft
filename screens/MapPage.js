@@ -1,28 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-export default function MapPage (){
+export default function MapPage ({route}){
+  const {socket} = route.params
 
-  const markers = [
-    {
-      latitude: 14.6536909,
-      longitude: 120.949748,
-      }, 
-      {
-        latitude: 14.6535062,
-        longitude: 120.9482692,
-      },
-      {
-        latitude: 14.6505363,
-        longitude: 120.9477894,
-      },
-      {
-        latitude: 14.6520482,
-        longitude: 120.9502971,
-      }, 
-  ];
+  const [markers,setMarkers] = useState([]);  
+
+  socket.on("data",({data,type}) => {
+    switch(type) {
+      case "help-map-data":
+        setMarkers([{
+          latitude:data.pwd.lat,
+          longitude:data.pwd.lng,
+        },{
+          latitude:data.assistant.lat,
+          longitude:data.assistant.lng,
+        }])
+        break;
+      case "help-request-done":
+        break;
+      default:
+        break;
+    }
+  })
 
   const CustomMarker = () => {
     return(
@@ -55,8 +57,8 @@ export default function MapPage (){
       }}
         showsUserLocation={true}
         initialRegion={{
-          latitude: 14.6529782,
-          longitude: 120.9515357,
+          latitude: markers[1]?.latitude || 14.7556602,
+          longitude: markers[1]?.longitude || 121.0450627,
           latitudeDelta: 0.025,
           longitudeDelta: 0.025,
         }}

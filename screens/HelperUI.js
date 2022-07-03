@@ -1,16 +1,29 @@
 import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from '@react-navigation/native';
 
 const HelperUI = ({route}) => {
-const navigation = useNavigation(); // Para makapag navigate
-const {token,socket,details} = route.params;
+    const navigation = useNavigation(); // Para makapag navigate
+    const {token,socket,details} = route.params;
 
-    console.log("UI",token)
-
-    socket.on("data",(data) => {
-        console.log(data);
+    socket.on("data",({data,type}) => {
+        switch(type) {
+            case "help": 
+                Alert.alert(`New Request - ${data.helpType}`,`Name: ${data.fullName}\nSex: ${data.sex}\nAge: ${data.age}`)
+                setTimeout(() => {
+                    socket.emit("confirm",{
+                        pwdId: data.userId,
+                        assistantId: details._id
+                    })
+                },3000)
+                break;
+            case "help-confirmed-feedback":
+                navigation.navigate('MapPage',{socket})
+                break;
+            default: 
+            break;
+        }
     })
 
 return (
@@ -52,15 +65,15 @@ return (
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Name: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text> Ken </Text>
+                            <Text> {details.fullName} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Sex: </Text>
                         <View style={styles.idInfoContainer}>
-
+                            <Text> {details.sex} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Helper ID: </Text>
                         <View style={styles.idInfoContainer}>
-
+                            {/* <Text> {details.sex} </Text> */}
                         </View>
                         
                     </View>
@@ -69,11 +82,11 @@ return (
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Age: </Text>
                         <View style={styles.idInfoContainer}>
-
+                            <Text> {details.age} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Contact No.: </Text>
                         <View style={styles.idInfoContainer}>
-
+                            <Text> {details.contactNumber} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Trust Factor: </Text>
                         <View style={styles.idInfoContainer}>
@@ -87,7 +100,7 @@ return (
                 <View style={styles.idAddrAndExtraInfo}>
                     <Text style={styles.idTextInfo}> Address: </Text>
                     <View style={styles.idInfoContainerExtended}>
-
+                        <Text> {details.address} </Text>
                     </View>
                     <Text style={styles.idTextInfo}> Extra Information: </Text>
                     <View style={styles.idInfoContainerExtended}>

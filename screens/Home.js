@@ -18,7 +18,6 @@ const Home = () => {
          <Text style={styles.splashText}> Third Eye </Text>
          <Text adjustsFontSizeToFit style={styles.instructionText} onPress={() => navigation.navigate('Details', {io})}> Swipe Left if you want to seek help.</Text>
          <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => navigation.navigate('AssistantRegister', {io})}> Swipe Right if you want to help.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => ws()}>Test WSs</Text>
     </SafeAreaView>
   )
 };
