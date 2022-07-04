@@ -6,6 +6,7 @@ LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
 
+
 const Home = () => {
     const navigation = useNavigation(); // Para makapag navigate
     if (!window.location) {

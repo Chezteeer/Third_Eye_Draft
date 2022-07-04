@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert, Modal, Pressable} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import Checkbox  from 'expo-checkbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const AssistantRegister = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const [agree, setAgree] = useState(false);
+  const [showModal, setshowModal] = useState(false);
 
   // User Information
   const [fullName, setfullName] = useState("");
@@ -24,7 +25,7 @@ const AssistantRegister = ({route}) => {
   const submit = () => {
     if (fullName == "" || userName == "" || presentAddress == "" || password == "" || confirmPassword == "" || contactNumber == "")
     {
-      Alert.alert("Error!", "Some required infos not filled up.");
+      setshowModal(true);
     }
     else
       Alert.alert("All infos filled up!", "Then pass through backend.");
@@ -32,6 +33,39 @@ const AssistantRegister = ({route}) => {
 
   return (
     <ScrollView style={styles.scrollViewStyle}>
+      {/* Start of Modal */}
+     <Modal
+        visible={showModal}
+        transparent
+        onRequestClose={() =>
+          setshowModal(false)
+        }
+        animationType='fade'
+        hardwareAccelerated
+      >
+        <View style={styles.centered_view}>
+          <View style={styles.request_modal}>
+            <View style={styles.modal_title}>
+              <Text style={styles.modalText}> Error. </Text>
+            </View>
+            <View style={styles.modal_body}>
+              <Text style={styles.modalDescription}> Please fill all the following fields. </Text>
+            </View>
+            <View>
+              {/* Button 1 */}
+            <Pressable
+              onPress={() => setshowModal(false)}
+              style={styles.accept_button}
+              android_ripple={{color:'#fff'}}
+            >
+              <Text style={styles.modalDescription}> Okay. </Text>
+            </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* End of Modal */}
+
     <View style={styles.container}>
         <View>
             <Image style={styles.helpLogo} source={require('../assets/images/help.png')}/>
@@ -201,7 +235,76 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#000',
         bottom: 30,
-  }
+  },
+  centered_view: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099'
+  },
+  request_modal: {
+    width: 300,
+    height: 300,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 20,
+  },
+  modal_title: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fdfc97',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  modal_body: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  accept_button:{
+    backgroundColor:'#76dd76',
+    borderRadius: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    textAlign: 'center',
+    width: 120,
+    height: 40,
+    borderWidth: 2,
+    elevation: 5,
+    
+  },
+  decline_button:{
+    backgroundColor:'#ff6c6a',
+    borderRadius: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    textAlign: 'center',
+    width: 120,
+    height: 40,
+    borderWidth: 2,
+    elevation: 5,
+  },
+  modalText:{
+      color: '#000000',
+      fontSize: 20,
+      margin: 10,
+      textAlign: 'center',
+      fontFamily: 'FredokaOne',
+  },
+  modalDescription:{
+    color: '#000000',
+      fontSize: 14,
+      marginTop: 'auto',
+      marginBottom: 'auto',
+      textAlign: 'center',
+      fontFamily: 'FredokaOne',
+      textShadowColor: 'rgba(0, 0, 0, 0.10)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10,
+  },
+
 });
 
 export default AssistantRegister
