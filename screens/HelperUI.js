@@ -1,17 +1,26 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+
 
 const HelperUI = ({route}) => {
 const navigation = useNavigation(); // Para makapag navigate
 const {token,socket,details} = route.params;
-
     console.log("UI",token)
 
     socket.on("data",(data) => {
         console.log(data);
     })
+
+    // navigation.dispatch(
+    //     CommonActions.reset({
+    //       index: 1,
+    //       routes: [
+    //         { name: "Home" },
+    //       ],
+    //     })
+    //   );
 
 return (
     <SafeAreaView styles={styles.container}>
