@@ -7,7 +7,9 @@ LogBox.ignoreLogs([
 
 const SearchAssistant = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-  const {io} = route.params
+  const {socket} = route.params
+
+  
 
   return (
     <SafeAreaView style={styles.container}>

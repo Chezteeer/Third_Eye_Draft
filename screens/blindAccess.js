@@ -24,7 +24,7 @@ const Details = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('BlindAssistType', {io})}>
+      <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('BlindAssistType', {socket})}>
         <Image style={styles.helpLogo} source={require('../assets/images/lookForHelp.gif')}/>
       </TouchableOpacity>
       <Text adjustsFontSizeToFit style={styles.text1}  onLongPress={() => navigation.navigate('MapPage')}> Long press the middle of the screen to request assistance from helpers!  </Text>

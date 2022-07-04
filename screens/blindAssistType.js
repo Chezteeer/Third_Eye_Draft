@@ -7,16 +7,16 @@ LogBox.ignoreLogs([
 
 const BlindAssistType = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-  const {io} = route.params
+  const {socket} = route.params
 
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.helpLogo} source={require('../assets/images/blindassisttype1.gif')}/>
       <Text adjustsFontSizeToFit style={styles.text1}> Swipe depending what type of assistance you require.  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Up: Chores  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Down: Buy Stuff  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Left: Pickup or Delivery  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {io})}> Swipe Right: Others  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Chores"})}> Swipe Up: Chores  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Buy Stuff"})}> Swipe Down: Buy Stuff  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Pickup or Delivery"})}> Swipe Left: Pickup or Delivery  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Others"})}> Swipe Right: Others  </Text>
     </SafeAreaView>
   )
 }

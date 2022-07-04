@@ -66,7 +66,7 @@ export default function MapPage ({route}){
       >
         {
           markers.map((val) => (
-            <Marker coordinate={{
+            <Marker key={val.latitude} coordinate={{
               latitude: val.latitude,
               longitude: val.longitude,
             }}>
