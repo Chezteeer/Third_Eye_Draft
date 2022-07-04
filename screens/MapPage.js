@@ -7,6 +7,7 @@ export default function MapPage (){
 
   const markers = [
     {
+      key: 1,
       latitude: 14.6536909,
       longitude: 120.949748,
       }, 
