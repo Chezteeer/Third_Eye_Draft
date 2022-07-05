@@ -13,7 +13,6 @@ export default function MapPage ({route}){
   const [assistantThere,setAssistantThere] = useState(false);
 
   socket.on("data",({data,type}) => {
-    console.log(data,type)
     switch(type) {
       // case "help-map-data":
       //   // setMarkers([{

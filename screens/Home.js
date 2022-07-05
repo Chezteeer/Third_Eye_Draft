@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, LogBox } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import io from "socket.io-client";
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -14,13 +15,16 @@ const Home = () => {
     }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <GestureRecognizer 
+        style={styles.container}
+        onSwipeLeft={() => navigation.navigate('Details', {io})}
+        onSwipeRight={() => navigation.navigate('AssistantRegister', {io})}>
          <Image style={styles.splashLogo} source={require('../assets/images/newLogo.gif')}/>
          <Text style={styles.splashText}> The Third Eye Application </Text>
          <Text adjustsFontSizeToFit style={styles.motto}> Request for assistance anytime, anywhere.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText} onPress={() => navigation.navigate('Details', {io})}> Swipe Left if you want to seek help.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => navigation.navigate('AssistantRegister', {io})}> Swipe Right if you want to help.</Text>
-    </SafeAreaView>
+         <Text adjustsFontSizeToFit style={styles.instructionText}> Swipe Left if you want to seek help.</Text>
+         <Text adjustsFontSizeToFit style={styles.instructionText2}> Swipe Right if you want to help.</Text>
+    </GestureRecognizer>
   )
 };
 
