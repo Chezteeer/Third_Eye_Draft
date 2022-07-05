@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert, Modal, Pressable} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert, Modal, Pressable,LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import Checkbox  from 'expo-checkbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from "axios";
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  ' Can\'t perform a React state update on an unmounted component'
+]);
 
 const AssistantLogin = ({route}) => {
   const baseUrl = "http://34.226.92.92:8080"

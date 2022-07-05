@@ -1,6 +1,10 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity, LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  ' Can\'t perform a React state update on an unmounted component'
+]);
 
 const AssistantHelpingUI = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate

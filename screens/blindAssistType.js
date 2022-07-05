@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
+  ' Can\'t perform a React state update on an unmounted component'
 ]);
 
 const BlindAssistType = ({route}) => {

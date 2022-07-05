@@ -5,6 +5,7 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import io from "socket.io-client";
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
+    ' Can\'t perform a React state update on an unmounted component'
   ]);
 
 
