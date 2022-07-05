@@ -45,7 +45,8 @@ const SearchAssistant = ({route}) => {
   if (!isArrived) {
     if (isConfirmed) {
       return (
-        <SafeAreaView style={styles.container('#4392fa')}>
+        <SafeAreaView style={styles.container('#c9f3f5')}>
+          <Image style={styles.helpLogo} source={require('../assets/images/assistedonway.gif')}/>
           <Text adjustsFontSizeToFit style={styles.text1}>Your assistant is on his way to you...</Text>
         </SafeAreaView>
       )

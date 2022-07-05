@@ -4,25 +4,23 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from '@react-navigation/native';
 
-
-export default function MapPage ({route}){
+  export default function MapPage ({route}){
   const navigation = useNavigation()
   const {socket,details} = route.params
-
   const [markers,setMarkers] = useState([]); 
   const [assistantThere,setAssistantThere] = useState(false);
 
   socket.on("data",({data,type}) => {
     switch(type) {
-      // case "help-map-data":
-      //   // setMarkers([{
-      //   //   latitude:data.pwd.lat,
-      //   //   longitude:data.pwd.lng,
-      //   // },{
-      //   //   latitude:data.assistant.lat,
-      //   //   longitude:data.assistant.lng,
-      //   // }])
-      //   break;
+      case "help-map-data":
+        setMarkers([{
+          latitude:data.pwd.lat,
+          longitude:data.pwd.lng,
+        },{
+          latitude:data.assistant.lat,
+          longitude:data.assistant.lng,
+        }])
+        break;
       case "help-map-done":
         setAssistantThere(true);
         break;

@@ -17,8 +17,8 @@ const Home = () => {
   return (
     <GestureRecognizer 
         style={styles.container}
-        onSwipeLeft={() => navigation.navigate('Details', {io})}
-        onSwipeRight={() => navigation.navigate('AssistantRegister', {io})}>
+        onSwipeLeft={() => navigation.navigate('AssistantRegister', {io})}
+        onSwipeRight={() => navigation.navigate('Details', {io})}>
          <Image style={styles.splashLogo} source={require('../assets/images/newLogo.gif')}/>
          <Text style={styles.splashText}> The Third Eye Application </Text>
          <Text adjustsFontSizeToFit style={styles.motto}> Request for assistance anytime, anywhere.</Text>

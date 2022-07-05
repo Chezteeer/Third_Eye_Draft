@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, TouchableOpacity, LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -8,7 +9,6 @@ LogBox.ignoreLogs([
 const BlindAssistType = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const {socket} = route.params
-
 
   const broadcastRequest = (helpType) => {
     socket.emit("request",{
@@ -19,14 +19,19 @@ const BlindAssistType = ({route}) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <GestureRecognizer 
+        style={styles.container}
+        onSwipeLeft={() => broadcastRequest("Pickup or Delivery")}
+        onSwipeRight={() => broadcastRequest("Others")}
+        onSwipeUp={() => broadcastRequest("Chores")}
+        onSwipeDown={() => broadcastRequest("Buy Stuff")}>
       <Image style={styles.helpLogo} source={require('../assets/images/blindassisttype1.gif')}/>
       <Text adjustsFontSizeToFit style={styles.text1}> Swipe depending what type of assistance you require.  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Chores")}> Swipe Up: Chores  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Buy Stuff")}> Swipe Down: Buy Stuff  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Pickup or Delivery")}> Swipe Left: Pickup or Delivery  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Others")}> Swipe Right: Others  </Text>
-    </SafeAreaView>
+      <Text adjustsFontSizeToFit style={styles.text2}> Swipe Up: Chores  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2}> Swipe Down: Buy Stuff  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2}> Swipe Left: Pickup or Delivery  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2}> Swipe Right: Others  </Text>
+    </GestureRecognizer>
   )
 }
 
