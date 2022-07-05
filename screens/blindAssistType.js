@@ -9,14 +9,23 @@ const BlindAssistType = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const {socket} = route.params
 
+
+  const broadcastRequest = (helpType) => {
+    socket.emit("request",{
+      helpType,
+      userId: "62c03535dd50f9c17a9ff49d"
+    });
+    navigation.navigate('SearchAssistant',{socket})
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.helpLogo} source={require('../assets/images/blindassisttype1.gif')}/>
       <Text adjustsFontSizeToFit style={styles.text1}> Swipe depending what type of assistance you require.  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Chores"})}> Swipe Up: Chores  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Buy Stuff"})}> Swipe Down: Buy Stuff  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Pickup or Delivery"})}> Swipe Left: Pickup or Delivery  </Text>
-      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => navigation.navigate('SearchAssistant', {socket,helpType:"Others"})}> Swipe Right: Others  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Chores")}> Swipe Up: Chores  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Buy Stuff")}> Swipe Down: Buy Stuff  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Pickup or Delivery")}> Swipe Left: Pickup or Delivery  </Text>
+      <Text adjustsFontSizeToFit style={styles.text2} onPress={() => broadcastRequest("Others")}> Swipe Right: Others  </Text>
     </SafeAreaView>
   )
 }

@@ -4,9 +4,27 @@ import { useNavigation } from '@react-navigation/native';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
+import axios from "axios";
 
-const AssistantSuccess = () => {
+const AssistantSuccess = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
+  const api = axios.create({baseURL:"http://34.226.92.92:8080"});
+  const {pwdId,assistantId,activityId,points,socket,details} = route.params;
+
+  const rate = (rate) => {
+    api.post("/rate",{
+      raterId: assistantId,
+      receiverId: pwdId,
+      rate,
+      type:0,
+      activityId,
+      review: ""
+    }).then(({data}) => {
+      if (data.success) {
+        navigation.navigate("AssistantSuccess2",{points,socket,details})
+      }
+    })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,21 +32,13 @@ const AssistantSuccess = () => {
       <Text adjustsFontSizeToFit style={styles.text1}> The work here is done! </Text>
       <Text adjustsFontSizeToFit style={styles.text2}> How would you rate your assisted PWD? </Text>
       <View style={{marginTop: 10,}}>
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('AssistantSuccess2')}> 1 star </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('AssistantSuccess2')}> 2 stars </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('AssistantSuccess2')}> 3 stars </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('AssistantSuccess2')}> 4 stars </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('AssistantSuccess2')}> 5 stars </Text>
-        </TouchableOpacity>
+        {
+          [1,2,3,4,5].map(num => (
+            <TouchableOpacity style={styles.rateButton} key={`num-${num}`}>
+                <Text style={styles.rateButtonText} onPress={() => rate(num)}> {num} Star </Text>
+            </TouchableOpacity>
+          ))
+        }
       </View>
     </SafeAreaView>
   )

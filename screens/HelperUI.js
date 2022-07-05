@@ -1,34 +1,100 @@
-import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button,Modal,Pressable} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation, CommonActions } from '@react-navigation/native';
+import axios from "axios"
 
 
 const HelperUI = ({route}) => {
+    const navigation = useNavigation();
+    const api = axios.create({baseURL:"http://34.226.92.92:8080"})
+
     const {token,socket,details} = route.params;
+    const [showModal,setShowModal] = useState(false)
+    const [helpType,setHelpType] = useState("");
+    const [isActive,setIsActive] = useState(details.available);
+    const [pwdId,setPwdId] = useState("");
 
     socket.on("data",({data,type}) => {
-        switch(type) {
-            case "help": 
-                Alert.alert(`New Request - ${data.helpType}`,`Name: ${data.fullName}\nSex: ${data.sex}\nAge: ${data.age}`)
-                setTimeout(() => {
-                    socket.emit("confirm",{
-                        pwdId: data.userId,
-                        assistantId: details._id
-                    })
-                },3000)
+        if (isActive) {
+            switch(type) {
+                case "help": 
+                    // Alert.alert(`New Request - ${data.helpType}`,`Name: ${data.fullName}\nSex: ${data.sex}\nAge: ${data.age}`)
+                    // setTimeout(() => {
+                    //     socket.emit("confirm",{
+                    //         pwdId: data.userId,
+                    //         assistantId: details._id
+                    //     })
+                    // },3000)
+                    setShowModal(true)
+                    setHelpType(data.helpType)
+                    setPwdId(data.userId)
+                    break;
+                case "help-confirmed-feedback":
+                    navigation.navigate('MapPage',{socket,details})
+                    break;
+                default: 
                 break;
-            case "help-confirmed-feedback":
-                navigation.navigate('MapPage',{socket})
-                break;
-            default: 
-            break;
-        }
+            }
+        } else setShowModal(false)
     })
-    //   );
+
+    const toggleActiveness = () => {
+        api.put("/user",{userId:details._id,status: !isActive}).then(({data}) => {
+            if (data.success) setIsActive(!isActive)
+            else Alert.alert("Error","Cannot update availability. Please try again.")
+        })
+    }
+
+    const acceptRequest = () => {
+        setShowModal(false)
+        socket.emit("confirm",{
+            pwdId,
+            assistantId: details._id
+        })
+    }
 
 return (
     <SafeAreaView styles={styles.container}>
+        <Modal
+        visible={showModal}
+        transparent
+        onRequestClose={() =>
+          setShowModal(false)
+        }
+        animationType='fade'
+        hardwareAccelerated
+      >
+        <View style={styles.centered_view}>
+          <View style={styles.request_modal}>
+            <View style={styles.modal_title}>
+              <Text style={styles.modalText}> A PWD needs help! </Text>
+            </View>
+            <View style={styles.modal_body}>
+              <Text style={styles.modalDescription}> A nearby PWD needs help with the following type! {'\n'} ({helpType})</Text>
+            </View>
+            <View style={{flexDirection: 'row',}}>
+              {/* Button 1 */}
+            <Pressable
+              onPress={acceptRequest}
+              style={styles.accept_button}
+              android_ripple={{color:'#fff'}}
+            >
+              <Text style={styles.modalDescription}> Accept it! </Text>
+            </Pressable>
+            {/* Button 2 */}
+            <Pressable
+              onPress={() => setShowModal(false)}
+              style={styles.decline_button}
+              android_ripple={{color:'#fff'}}
+            >
+              <Text style={styles.modalDescription}> Decline it. </Text>
+            </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
         <View style={styles.pastelcontainer}>
             <View style={styles.userStats}>
                 <View style={styles.iconStatLayout}> 
@@ -110,15 +176,15 @@ return (
                 </View>
                 
             </View>
-            <View style={styles.availableButton}>
-                <Text style={styles.availableButtonText}  onPress={() => navigation.navigate('inDevelopment')}> I'm available! </Text>
+            <View style={styles.availableButton(isActive)}>
+                <Text style={styles.availableButtonText(isActive)}  onPress={toggleActiveness}> I'm{isActive ? "" : " not"} available! </Text>
             </View>
                 <Text style={styles.availabilityText}> This will allow you to receive {"\n"} requests and earn rewards! </Text>
                 
         </View>
         <View>
             <Text style={styles.availabilityText}> Tap the map to view the  {"\n"} real-time locations of PWDs! </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('MapPage')}>
+            <TouchableOpacity onPress={() => navigation.navigate('MapPage',{socket})}>
                 <Image style={styles.gear} source={require('../assets/images/map.png')}/>
             </TouchableOpacity>
         </View>
@@ -296,9 +362,9 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginTop: 10,
     },
-    availableButton:{
+    availableButton:(isActive = true) => ({
         bottom: 5,
-        backgroundColor: '#0CCF08',
+        backgroundColor: isActive ? '#0CCF08' : "#333",
         borderRadius: 25,
         borderColor: "black",
         borderWidth: 1.5,
@@ -306,15 +372,15 @@ const styles = StyleSheet.create({
         height: '10%',
         alignSelf: 'center',
         elevation: 5,
-    },
-    availableButtonText:{
+    }),
+    availableButtonText:(isActive = true) => ({
         fontSize: 25,
         fontFamily: 'FredokaOne',
         textAlign: 'center',
-        color: '#fff',
+        color: isActive ? '#fff' : "#ccc",
         marginTop: 'auto',
         marginBottom: 'auto',
-    },
+    }),
     availabilityText:{
         marginTop: 15,
         fontSize: 16,
@@ -336,7 +402,75 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 'auto',
         marginRight: 'auto',
-    }
+    },
+    request_modal: {
+        width: 300,
+        height: 300,
+        backgroundColor: '#ffffff',
+        borderWidth: 1,
+        borderColor: '#000',
+        borderRadius: 20,
+      },
+      modal_title: {
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fdfc97',
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
+      },
+      modal_body: {
+        height: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      accept_button:{
+        backgroundColor:'#76dd76',
+        borderRadius: 20,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        width: 120,
+        height: 40,
+        borderWidth: 2,
+        elevation: 5,
+        
+      },
+      decline_button:{
+        backgroundColor:'#ff6c6a',
+        borderRadius: 20,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        width: 120,
+        height: 40,
+        borderWidth: 2,
+        elevation: 5,
+      },
+      modalText:{
+          color: '#000000',
+          fontSize: 20,
+          margin: 10,
+          textAlign: 'center',
+          fontFamily: 'FredokaOne',
+      },
+      modalDescription:{
+        color: '#000000',
+          fontSize: 14,
+          marginTop: 'auto',
+          marginBottom: 'auto',
+          textAlign: 'center',
+          fontFamily: 'FredokaOne',
+          textShadowColor: 'rgba(0, 0, 0, 0.10)',
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+      },
+      centered_view: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00000099'
+      }
 });
 
 export default HelperUI

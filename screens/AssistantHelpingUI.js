@@ -4,6 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const AssistantHelpingUI = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
+  const {sock} = route.params;
+
+  // socket.on("request-done",data => {
+  //   console.log(data)
+  // })
 
   return (
     <SafeAreaView style={styles.container}>

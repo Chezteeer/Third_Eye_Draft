@@ -7,20 +7,17 @@ LogBox.ignoreLogs([
 
 const Details = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-  const {io} = route.params
+  const {io, _socket} = route.params
+  let socket = null;
 
-  const socket = io("http://34.226.92.92:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMwMzUzNWRkNTBmOWMxN2E5ZmY0OWQiLCJ0eXBlIjoxLCJpYXQiOjE2NTY3NjM3NzR9.cKZr5yYBoBQ0hLPh2fgTYhU2mEtNCpZY9wVLcuhI37g",{transports:["websocket"]})
+  if (!_socket) {
+    socket = io("http://34.226.92.92:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMwMzUzNWRkNTBmOWMxN2E5ZmY0OWQiLCJ0eXBlIjoxLCJpYXQiOjE2NTY3NjM3NzR9.cKZr5yYBoBQ0hLPh2fgTYhU2mEtNCpZY9wVLcuhI37g",{transports:["websocket"]})
+  } else socket = _socket
+
 
   socket.on("connect",() => {
     console.log("PWD Connected")
   })
-
-  const requestHelp = () => {
-    socket.emit("request",{
-      helpType: "Others",
-      userId: "62c03535dd50f9c17a9ff49d"
-    });
-  }
 
   return (
     <SafeAreaView style={styles.container}>

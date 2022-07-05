@@ -5,8 +5,9 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-const BlindSuccess2 = () => {
+const BlindSuccess2 = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
+  const {points,socket,details} = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -15,9 +16,9 @@ const BlindSuccess2 = () => {
       </TouchableOpacity>
       
       <Text adjustsFontSizeToFit style={styles.text1}> PWD feedback successfully sent!</Text>
-      <Text adjustsFontSizeToFit style={styles.text2}> You have earned ___ points.</Text>
+      <Text adjustsFontSizeToFit style={styles.text2}> You have earned {points} points.</Text>
       <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI')}> Go back. </Text>
+            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{socket,details})}> Go back. </Text>
         </TouchableOpacity>
     </SafeAreaView>
   )

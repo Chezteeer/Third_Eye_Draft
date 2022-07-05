@@ -5,14 +5,14 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-const BlindSuccess2 = () => {
+const BlindSuccess2 = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
 
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('Details')}>
-        <Image style={styles.helpLogo} source={require('../assets/images/award.gif')} onLongPress={() => navigation.navigate('BlindAssistType')}/>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.helpLogo} onLongPress={() => navigation.navigate('Details',{_socket:route.params.socket})}>
+          <Image style={styles.helpLogo} source={require('../assets/images/award.gif')} onLongPress={() => navigation.navigate('BlindAssistType')}/>
+        </TouchableOpacity>
       
       <Text adjustsFontSizeToFit style={styles.text1}> Assistant feedback successfully sent!</Text>
       <Text adjustsFontSizeToFit style={styles.text2}> Long press the middle screen to go back.</Text>
