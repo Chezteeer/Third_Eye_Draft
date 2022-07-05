@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
+  ' Can\'t perform a React state update on an unmounted component'
 ]);
 
 const BlindSuccess = ({route}) => {

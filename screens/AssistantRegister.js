@@ -1,8 +1,12 @@
 import React, {useState} from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert, Modal, Pressable} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TextInput, ScrollView, Alert, Modal, Pressable,LogBox} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import Checkbox  from 'expo-checkbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  ' Can\'t perform a React state update on an unmounted component'
+]);
 
 // Keyboard Avoiding Wrapper
 

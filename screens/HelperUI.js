@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button,Modal,Pressable} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button,Modal,Pressable,LogBox} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import axios from "axios"
-
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+    ' Can\'t perform a React state update on an unmounted component'
+  ]);
 
 const HelperUI = ({route}) => {
     const navigation = useNavigation();
