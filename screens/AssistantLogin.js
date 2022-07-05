@@ -67,7 +67,7 @@ const AssistantLogin = ({route}) => {
               <Text style={styles.modalText}> Error. </Text>
             </View>
             <View style={styles.modal_body}>
-              <Text style={styles.modalDescription}> Please enter your registered  {'\n'}username and password. </Text>
+              <Text style={styles.modalDescription}> Please enter your registered  {'\n'  }username and password. </Text>
             </View>
             <View>
               {/* Button 1 */}
