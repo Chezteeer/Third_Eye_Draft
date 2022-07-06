@@ -7,6 +7,8 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
   ' Can\'t perform a React state update on an unmounted component'
 ]);
+import axios from "axios"
+import RNPicker from "react-native-picker-select";
 
 // Keyboard Avoiding Wrapper
 
@@ -22,8 +24,12 @@ const AssistantRegister = ({route}) => {
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [contactNumber, setcontactNumber] = useState("");
+  const [sex, setSex] = useState("Male");
+  const [age, setAge] = useState(10);
 
   const {io} = route.params
+
+  const api = axios.create({baseURL:"http://34.226.92.92:8080"});
 
   // Form Submit
   const submit = () => {
@@ -31,8 +37,25 @@ const AssistantRegister = ({route}) => {
     {
       setshowModal(true);
     }
-    else
-      Alert.alert("All infos filled up!", "Then pass through backend.");
+    else {
+      api.post("/user/register",{
+        fullName,
+        username: userName,
+        password: password,
+        contactNumber,
+        address:presentAddress,
+        age,
+        sex
+      }).then(({data}) => {
+        if (data.success) {
+          Alert.alert("Success!", "Registered Successfully");
+          navigation.navigate("AssistantLogin",{io});
+        } else Alert.alert("Error!", "Unknown error occured.");
+      }).catch(error => {
+        if (error.response.status === 401) Alert.alert("Error!", error.response.data.message);
+        else Alert.alert("Error!", "Unknown error occured.");
+      })
+    }
   }
 
   return (
@@ -83,6 +106,43 @@ const AssistantRegister = ({route}) => {
               onChangeText = {(inputData) => setfullName(inputData)}
               require/>
 
+            <Text adjustFontSizeToFit style={styles.formText}> Sex:</Text>
+              <RNPicker
+                style={{
+                  inputAndroid: {
+                    borderWidth:2,
+                    paddingHorizontal: 8,
+                    borderRadius: 3,
+                    backgroundColor: '#ede9e8',
+                    fontFamily: 'FredokaOne',
+                    marginVertical: 5
+                  }
+                }}
+                useNativeAndroidPickerStyle={false}
+                onValueChange={(inputData) => setSex(inputData)}
+                items={[
+                    { label: 'Male', value: 'Male' },
+                    { label: 'Female', value: 'Female' },
+                ]}
+            />
+
+            <Text adjustFontSizeToFit style={styles.formText}> Age:</Text>
+              <RNPicker
+                style={{
+                  inputAndroid: {
+                    borderWidth:2,
+                    paddingHorizontal: 8,
+                    borderRadius: 3,
+                    backgroundColor: '#ede9e8',
+                    fontFamily: 'FredokaOne',
+                    marginVertical: 5
+                  }
+                }}
+                useNativeAndroidPickerStyle={false}
+                onValueChange={(inputData) => setAge(inputData)}
+                items={Array.from({length: 90}, (_, i) => i + 10).map(num => ({label: num.toString(),value:num.toString()}))}
+            />
+
             <Text adjustFontSizeToFit style={styles.formText}> Present Address: </Text>
             <TextInput 
               style={styles.formContainer}
@@ -126,19 +186,18 @@ const AssistantRegister = ({route}) => {
                />
               <Text style={styles.checkboxText}>Agree to the terms and condition of the application.</Text>
             </View>
-
             <View>
-            <TouchableOpacity style={[
-              styles.registerButton,
-              {
-                backgroundColor: agree ? "#0CCF08" : "grey",
-              }
-            ]}
-            disabled={!agree}
-            onPress={() => submit()}>
-              
-                <Text adjustFontSizeToFit style={styles.registerButtonText}> Register</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={[
+                styles.registerButton,
+                {
+                  backgroundColor: agree ? "#0CCF08" : "grey",
+                }
+              ]}
+              disabled={!agree}
+              onPress={() => submit()}>
+                
+                  <Text adjustFontSizeToFit style={styles.registerButtonText}> Register</Text>
+              </TouchableOpacity>
             </View>
         </View>
 
@@ -176,7 +235,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 10,
         width: '90%',
-        height: 500,
+        // flex:1,
+        height: 850,
         borderColor: "black",
         borderWidth: 1.5,
         elevation: 5,
@@ -204,12 +264,12 @@ const styles = StyleSheet.create({
   formContainer:{
     marginVertical: 5,
     backgroundColor: '#ede9e8',
+    fontFamily: 'FredokaOne',
     borderWidth: 2,
     height: '7%',
     paddingHorizontal: 7,
     paddingVertical: 7,
     borderRadius: 3,
-    fontFamily: 'FredokaOne',
     fontSize: 12,
   },
   scrollViewStyle:{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, StatusBar, Image, Platform,LogBox } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -55,49 +55,57 @@ export default function MapPage ({route}){
   const [assistantThere,setAssistantThere] = useState(false);
   const [isPassed,setIsPassed] = useState(false);
 
-  const changeCoords = () => {
-    if (!isPassed) {
-      let i = 0;
-      setIsPassed(true);
-      let s = setInterval(() => {
-          if (i < data.length) {
-            setMarkers([{
-              latitude:data[data.length - 1][1],
-              longitude:data[data.length - 1][0],
-            },{
-              latitude:data[i][1],
-              longitude:data[i][0],
-            }])
-            i++;
-          } else clearInterval(s);
-      },3000);
-    }
-  }
+  // const changeCoords = () => {
+  //   if (!isPassed) {
+  //     let i = 0;
+  //     setIsPassed(true);
+  //     let s = setInterval(() => {
+  //         if (i < data.length) {
+  //           console.log([{
+  //             latitude:data[data.length - 1][1],
+  //             longitude:data[data.length - 1][0],
+  //           },{
+  //             latitude:data[i][1],
+  //             longitude:data[i][0],
+  //           }])
+  //           setMarkers([{
+  //             latitude:data[data.length - 1][1],
+  //             longitude:data[data.length - 1][0],
+  //           },{
+  //             latitude:data[i][1],
+  //             longitude:data[i][0],
+  //           }])
+  //           i++;
+  //         } else clearInterval(s);
+  //     },5000);
+  //   }
+  // }
 
-
-
-  socket.on("data",({data,type}) => {
-    switch(type) {
-      case "help-map-data":
-        // setMarkers([{
-        //   latitude:data.pwd.lat,
-        //   longitude:data.pwd.lng,
-        // },{
-        //   latitude:data.assistant.lat,
-        //   longitude:data.assistant.lng,
-        // }])
-        changeCoords()
-        break;
-      case "help-map-done":
-        setAssistantThere(true);
-        break;
-      case "request-done":
-        navigation.navigate("AssistantSuccess",{...data,socket,details})
-        break;
-      default:
-        break;
-    }
-  })
+  useEffect(() => {
+    socket.on("data",({data,type}) => {
+      switch(type) {
+        case "help-map-data":
+          console.log("MAP",type)
+          setMarkers([{
+            latitude:data.pwd.lat,
+            longitude:data.pwd.lng,
+          },{
+            latitude:data.assistant.lat,
+            longitude:data.assistant.lng,
+          }])
+          break;
+        case "help-map-done":
+          setAssistantThere(true);
+          break;
+        case "request-done":
+          navigation.navigate("AssistantSuccess",{...data,socket,details})
+          break;
+        default:
+          break;
+      }
+    })
+  },[]);
+  
 
   const CustomMarker = () => {
     return(
@@ -140,21 +148,23 @@ export default function MapPage ({route}){
           initialRegion={{
             latitude: markers[1]?.latitude || 14.7556602,
             longitude: markers[1]?.longitude || 121.0450627,
-            latitudeDelta: 0.025,
-            longitudeDelta: 0.025,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}
           zoomEnabled={true}
         >
           {
-            markers.map((val) => (
-              <Marker key={val.latitude} coordinate={{
+            markers.map((val,index) => (
+              <Marker key={val.latitude + index} coordinate={{
                 latitude: val.latitude,
                 longitude: val.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
               }}>
                 <CustomMarker />
-                <Callout>
+                {/* <Callout>
                     <Text> PWD. </Text>
-                </Callout>
+                </Callout> */}
               </Marker>
             ))
           }

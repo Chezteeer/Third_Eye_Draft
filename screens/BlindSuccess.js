@@ -9,7 +9,6 @@ LogBox.ignoreLogs([
 
 const BlindSuccess = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
-  const [showModal, setshowModal] = useState(false);
   const {socket,pwdId,assistantId,activityId} = route.params;
 
   const rate = (rate) => {
@@ -41,9 +40,6 @@ const BlindSuccess = ({route}) => {
             </TouchableOpacity>
           ))
         }
-        <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => setshowModal(true)}> Test Modal </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

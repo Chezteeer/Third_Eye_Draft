@@ -102,6 +102,7 @@ const AssistantLogin = ({route}) => {
             <TextInput 
               style={styles.formContainer} 
               value={password} 
+              secureTextEntry={true}
               onChangeText = {(inputData) => setpassword(inputData)}
               require/>
 

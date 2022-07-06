@@ -19,7 +19,7 @@ const BlindSuccess2 = ({route}) => {
       <Text adjustsFontSizeToFit style={styles.text1}> PWD feedback successfully sent!</Text>
       <Text adjustsFontSizeToFit style={styles.text2}> You have earned {points} points.</Text>
       <TouchableOpacity style={styles.rateButton}>
-            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{socket,details})}> Go back. </Text>
+            <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{socket,details,points,uphelp:1})}> Go back. </Text>
         </TouchableOpacity>
     </SafeAreaView>
   )

@@ -12,7 +12,8 @@ const HelperUI = ({route}) => {
     const navigation = useNavigation();
     const api = axios.create({baseURL:"http://34.226.92.92:8080"})
 
-    const {token,socket,details} = route.params;
+    const {token,socket,details,points,uphelp} = route.params;
+    console.log(details)
     const [showModal,setShowModal] = useState(false)
     const [helpType,setHelpType] = useState("");
     const [isActive,setIsActive] = useState(details.available);
@@ -22,13 +23,6 @@ const HelperUI = ({route}) => {
         if (isActive) {
             switch(type) {
                 case "help": 
-                    // Alert.alert(`New Request - ${data.helpType}`,`Name: ${data.fullName}\nSex: ${data.sex}\nAge: ${data.age}`)
-                    // setTimeout(() => {
-                    //     socket.emit("confirm",{
-                    //         pwdId: data.userId,
-                    //         assistantId: details._id
-                    //     })
-                    // },3000)
                     setShowModal(true)
                     setHelpType(data.helpType)
                     setPwdId(data.userId)
@@ -109,9 +103,9 @@ return (
                     </View>
                     <View style={styles.achievementSection}>
                         <Image style={styles.coinPoint} source={require('../assets/images/coinpoint.png')}/>
-                        <Text style={styles.achievementText}> 60 pts. </Text>
+                        <Text style={styles.achievementText}> {details.points + (points ? points : 0)} pts. </Text>
                         <Image style={styles.helpStat} source={require('../assets/images/help_01.png')}/>
-                        <Text  style={styles.achievementText}> 3 helps. </Text>
+                        <Text  style={styles.achievementText}> {details.helps + (uphelp ? 1 : 0)} helps. </Text>
                         <Image style={styles.helpStat} source={require('../assets/images/coupon.png')}/>
                         <Text  style={styles.achievementText}> 2 coupons. </Text>
                     </View>
@@ -128,7 +122,7 @@ return (
                 </View>
                 <View style={styles.idPicAndInfo}>
                     <View style={styles.idPicture}>
-                        {/* Picture Dito? */}
+                        <Image style={{width:110,height:110,alignSelf:"center",}} source={{uri:details.imageURL}} />
                     </View>
 
                         {/* First Column sa ID Infos */}
@@ -160,7 +154,7 @@ return (
                         </View>
                         <Text style={styles.idTextInfo}> Trust Factor: </Text>
                         <View style={styles.idInfoContainer}>
-
+                            <Text>{details.rate}</Text>
                         </View>
                         
                     </View>
@@ -299,6 +293,9 @@ const styles = StyleSheet.create({
         marginBottom: 'auto',
         alignSelf: 'center',
     },
+    imagePic: {
+
+    },
     idContainer:{
         bottom: 25,
         marginLeft: 'auto',
@@ -347,7 +344,7 @@ const styles = StyleSheet.create({
         marginLeft: 1,
         backgroundColor: '#C2C2C2',
         width: 100,
-        height: 16,
+        height: 20,
     },
     idInfoContainerExtended:{
         marginLeft: 3,
