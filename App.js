@@ -22,6 +22,7 @@ import HelperUI from './screens/HelperUI';
 import assistantCurrentlyHelping from './screens/AssistantHelpingUI';
 import AssistantSuccess from './screens/AssistantSuccess';
 import AssistantSuccess2 from './screens/AssistantSuccess2';
+import AssistantVoucher from './screens/AssistantVoucher';
 
 
 const theme = {
@@ -42,7 +43,7 @@ const App = () => {
   if (!loaded) return null;
   return(
     <NavigationContainer theme={theme}>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="AssistantVoucher" screenOptions={{ headerShown: false }}>
         <Stack.Screen component={Home} name="Home"/>
         <Stack.Screen component={Details} name="Details"/>
         <Stack.Screen component={HelperUI} name="HelperUI"/>
@@ -58,6 +59,7 @@ const App = () => {
         <Stack.Screen component={BlindSuccess2} name="BlindSuccess2"/>
         <Stack.Screen component={AssistantSuccess} name="AssistantSuccess"/>
         <Stack.Screen component={AssistantSuccess2} name="AssistantSuccess2"/>
+        <Stack.Screen component={AssistantVoucher} name="AssistantVoucher"/>
       </Stack.Navigator>
     </NavigationContainer>
   );

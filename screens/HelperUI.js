@@ -110,7 +110,7 @@ return (
                         <Text  style={styles.achievementText}> 2 coupons. </Text>
                     </View>
                     <View style={styles.rewardButton}>
-                        <TouchableOpacity style={styles.giftIcon} onPress={() => navigation.navigate('inDevelopment')}>
+                        <TouchableOpacity style={styles.giftIcon} onPress={() => navigation.navigate('AssistantVoucher')}>
                             <Image style={styles.giftIcon} source={require('../assets/images/gift.png')}/>
                         </TouchableOpacity>
                     </View>
