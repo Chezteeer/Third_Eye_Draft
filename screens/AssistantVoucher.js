@@ -8,6 +8,7 @@ const AssistantVoucher = ({route}) => {
   const api = axios.create({baseURL:"http://34.226.92.92:8080"})
   
   const {points, username,coupons,userId,details,socket,uphelp} = route.params;
+  const [showModal,setShowModal] = useState(false)
   
   const [ucop,setUcop] = useState(coupons);
   const [up,setUp] = useState(points);
@@ -21,7 +22,7 @@ const AssistantVoucher = ({route}) => {
         if (data.success) {
           setUp(up - 1000)
           setUcop(ucop + 1)
-          Alert.alert("Success!","You successfully redeemed 1 voucher")
+          setShowModal(true)
         }
       })
     } else Alert.alert("Insufficient Points","You don't have enough points to redeem this voucher")
@@ -29,6 +30,37 @@ const AssistantVoucher = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        visible={showModal}
+        transparent
+        onRequestClose={() =>
+          setShowModal(false)
+        }
+        animationType='fade'
+        hardwareAccelerated
+      >
+        <View style={styles.centered_view}>
+          <View style={styles.request_modal}>
+            <View style={styles.modal_title}>
+              <Text style={styles.modalText}> Coupon Redeemed! </Text>
+            </View>
+            <View style={styles.modal_body}>
+              <Text style={styles.modalDescription}> You have successfully redeemed your voucher! </Text>
+            </View>
+            <View style={{flexDirection: 'row',}}>
+              {/* Button 1 */}
+            <Pressable
+              onPress={() => setShowModal(false)}
+              style={styles.accept_button}
+              android_ripple={{color:'#fff'}}
+            >
+              <Text style={styles.modalDescription}> Thanks! </Text>
+            </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
         <View style={styles.assistantPointContainer}>
             <Image style={styles.assistantPointImage} source={require('../assets/images/userIcon.png')}/>
                 <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> {username} </Text>
@@ -170,6 +202,74 @@ const styles = StyleSheet.create({
         fontFamily: 'FredokaOne',
         fontSize: 12,
     },
+    request_modal: {
+      width: 300,
+      height: 300,
+      backgroundColor: '#ffffff',
+      borderWidth: 1,
+      borderColor: '#000',
+      borderRadius: 20,
+    },
+    modal_title: {
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fdfc97',
+      borderTopRightRadius: 20,
+      borderTopLeftRadius: 20,
+    },
+    modal_body: {
+      height: 200,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    accept_button:{
+      backgroundColor:'#76dd76',
+      borderRadius: 20,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      textAlign: 'center',
+      width: 120,
+      height: 40,
+      borderWidth: 2,
+      elevation: 5,
+      
+    },
+    decline_button:{
+      backgroundColor:'#ff6c6a',
+      borderRadius: 20,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      textAlign: 'center',
+      width: 120,
+      height: 40,
+      borderWidth: 2,
+      elevation: 5,
+    },
+    modalText:{
+        color: '#000000',
+        fontSize: 20,
+        margin: 10,
+        textAlign: 'center',
+        fontFamily: 'FredokaOne',
+    },
+    modalDescription:{
+      color: '#000000',
+        fontSize: 14,
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        textAlign: 'center',
+        fontFamily: 'FredokaOne',
+        textShadowColor: 'rgba(0, 0, 0, 0.10)',
+          textShadowOffset: {width: -1, height: 1},
+          textShadowRadius: 10,
+    },
+    centered_view: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#00000099'
+    }
 });
 
 export default AssistantVoucher

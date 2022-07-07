@@ -22,7 +22,9 @@ const BlindSuccess = ({route}) => {
       type: 1,
       activityId
     }).then(({data}) => {
+      console.log({data});
       if (data.success) navigation.navigate("BlindSuccess2",{...route.params});
+      
       else Alert.alert("Error","Cannot rate your assistant. Please try again.")
     })
   }

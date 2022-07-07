@@ -46,9 +46,9 @@ const SearchAssistant = ({route}) => {
   if (!isArrived) {
     if (isConfirmed) {
       return (
-        <SafeAreaView style={styles.container('#c9f3f5')}>
+        <SafeAreaView style={styles.container('#d0fdfe')}>
           <Image style={styles.helpLogo} source={require('../assets/images/assistedonway.gif')}/>
-          <Text adjustsFontSizeToFit style={styles.text1}>Your assistant is on his way to you...</Text>
+          <Text adjustsFontSizeToFit style={styles.text2}>Your assistant is on his way to you...</Text>
         </SafeAreaView>
       )
     } else {
@@ -89,6 +89,16 @@ const styles = StyleSheet.create({
       textShadowOffset: {width: -1, height: 1},
       textShadowRadius: 10,
       color: '#FFF',
+    },
+    text2: {
+      fontSize: 18,
+      textAlign: 'center',
+      fontFamily: 'FredokaOne',
+      marginTop: 20,
+      marginBottom: 'auto',
+      textShadowColor: 'rgba(0, 0, 0, 0.30)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     helpLogo: {
       marginTop: 'auto',

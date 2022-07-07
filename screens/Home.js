@@ -23,8 +23,8 @@ const Home = () => {
          <Image style={styles.splashLogo} source={require('../assets/images/newLogo.gif')}/>
          <Text style={styles.splashText}> The Third Eye Application </Text>
          <Text adjustsFontSizeToFit style={styles.motto}> Request for assistance anytime, anywhere.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText}> Swipe Left if you want to seek help.</Text>
-         <Text adjustsFontSizeToFit style={styles.instructionText2}> Swipe Right if you want to help.</Text>
+         <Text adjustsFontSizeToFit style={styles.instructionText} onPress={() => navigation.navigate('Details', {io})}> Swipe Left if you want to seek help.</Text>
+         <Text adjustsFontSizeToFit style={styles.instructionText2} onPress={() => navigation.navigate('AssistantRegister', {io})}> Swipe Right if you want to help.</Text>
     </GestureRecognizer>
   )
 };

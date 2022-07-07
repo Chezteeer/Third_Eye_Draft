@@ -40,7 +40,7 @@ export default function MapPage ({route}){
   },[]);
   
 
-  const CustomMarker = () => {
+  const CustomMarker = ({type}) => {
     return(
       <View>
         <Icon name="location-history" size={50} color='#E74c3c' />
@@ -56,7 +56,9 @@ export default function MapPage ({route}){
           <Icon style={{
             textAlign: 'center',
             top: 5,
-          }} name="accessible" size={20} color='#E74c3c' />
+          }} name={
+            type ? 'person' : 'accessible'
+          } size={20} color='#E74c3c' />
         </View>
       </View>
     )
@@ -94,7 +96,7 @@ export default function MapPage ({route}){
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01,
               }}>
-                <CustomMarker />
+                <CustomMarker type={index} />
                 {/* <Callout>
                     <Text> PWD. </Text>
                 </Callout> */}
