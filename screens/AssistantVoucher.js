@@ -7,7 +7,7 @@ const AssistantVoucher = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
   const api = axios.create({baseURL:"http://34.226.92.92:8080"})
   
-  const {points, username,coupons,userId,details,socket} = route.params;
+  const {points, username,coupons,userId,details,socket,uphelp} = route.params;
   
   const [ucop,setUcop] = useState(coupons);
   const [up,setUp] = useState(points);
@@ -63,7 +63,7 @@ const AssistantVoucher = ({route}) => {
         </View>
         <Text adjustsFontSizeToFit={true} style={{color: 'black', marginTop: 20, textAlign: 'center', fontFamily:'FredokaOne', fontSize: 18}}> More coupons available soon! </Text>
             <TouchableOpacity style={styles.rateButton}>
-              <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{ucop,up,details,socket})}> Go back. </Text>
+              <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{ucop,up,details,socket,uph:uphelp})}> Go back. </Text>
             </TouchableOpacity>
     </SafeAreaView>
   )
