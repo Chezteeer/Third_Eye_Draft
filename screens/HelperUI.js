@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert,Button,Modal,Pressable,LogBox} from 'react-native'
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation, CommonActions } from '@react-navigation/native';
@@ -12,12 +12,15 @@ const HelperUI = ({route}) => {
     const navigation = useNavigation();
     const api = axios.create({baseURL:"http://34.226.92.92:8080"})
 
-    const {token,socket,details,points,uphelp} = route.params;
+    const {token,socket,details,points,uphelp,ucop,up} = route.params;
     console.log(details)
     const [showModal,setShowModal] = useState(false)
     const [helpType,setHelpType] = useState("");
     const [isActive,setIsActive] = useState(details.available);
     const [pwdId,setPwdId] = useState("");
+    const [upoints,setUpoints] = useState(up ? up : 0);
+    const [uh,setUh] = useState(0);
+    const [uc,setUc] = useState(ucop ? ucop : 0);
 
     socket.on("data",({data,type}) => {
         if (isActive) {
@@ -50,6 +53,19 @@ const HelperUI = ({route}) => {
             assistantId: details._id
         })
     }
+
+    useEffect(() => {
+        api.get("/user/updated",{
+            params: {
+                userId:details._id
+            }
+        }).then(({data}) => {
+            console.log("HERE",data);
+            setUpoints(data.points);
+            setUh(data.helps);
+            setUc(data.coupons);
+        })
+    },[]);
 
 return (
     <SafeAreaView styles={styles.container}>
@@ -103,14 +119,14 @@ return (
                     </View>
                     <View style={styles.achievementSection}>
                         <Image style={styles.coinPoint} source={require('../assets/images/coinpoint.png')}/>
-                        <Text style={styles.achievementText}> {details.points + (points ? points : 0)} pts. </Text>
+                        <Text style={styles.achievementText}> {up ? up : upoints ? upoints + (points ? points : 0)  : details.points + (points ? points : 0) - (details.coupons * 1000)} pts. </Text>
                         <Image style={styles.helpStat} source={require('../assets/images/help_01.png')}/>
-                        <Text  style={styles.achievementText}> {details.helps + (uphelp ? 1 : 0)} helps. </Text>
+                        <Text  style={styles.achievementText}> {uh ? uh + (uphelp ? 1 : 0) : details.helps + (uphelp ? 1 : 0)} helps. </Text>
                         <Image style={styles.helpStat} source={require('../assets/images/coupon.png')}/>
-                        <Text  style={styles.achievementText}> 2 coupons. </Text>
+                        <Text  style={styles.achievementText}> {ucop ? ucop : uc ? uc : details.coupons} coupons. </Text>
                     </View>
                     <View style={styles.rewardButton}>
-                        <TouchableOpacity style={styles.giftIcon} onPress={() => navigation.navigate('AssistantVoucher')}>
+                        <TouchableOpacity style={styles.giftIcon} onPress={() => navigation.navigate('AssistantVoucher',{points:up ? up : details.points - (details.coupons * 1000),username:details.username,coupons:ucop ? ucop : details.coupons,userId:details._id,details,socket,uphelp: details.helps + (uphelp ? 1 : 0)})}>
                             <Image style={styles.giftIcon} source={require('../assets/images/gift.png')}/>
                         </TouchableOpacity>
                     </View>

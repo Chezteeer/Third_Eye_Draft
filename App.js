@@ -43,7 +43,7 @@ const App = () => {
   if (!loaded) return null;
   return(
     <NavigationContainer theme={theme}>
-      <Stack.Navigator initialRouteName="AssistantVoucher" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         <Stack.Screen component={Home} name="Home"/>
         <Stack.Screen component={Details} name="Details"/>
         <Stack.Screen component={HelperUI} name="HelperUI"/>

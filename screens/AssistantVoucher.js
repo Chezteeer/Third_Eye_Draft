@@ -1,34 +1,56 @@
-import React from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-const AssistantVoucher = () => {
+const AssistantVoucher = ({route}) => {
   const navigation = useNavigation(); // Para makapag navigate
+  const api = axios.create({baseURL:"http://34.226.92.92:8080"})
+  
+  const {points, username,coupons,userId,details,socket} = route.params;
+  
+  const [ucop,setUcop] = useState(coupons);
+  const [up,setUp] = useState(points);
+
+  const vouch = () => {
+    if (up >= 1000) {
+      api.put("/user",{
+        userId,
+        coupons: coupons + 1
+      }).then(({data}) => {
+        if (data.success) {
+          setUp(up - 1000)
+          setUcop(ucop + 1)
+          Alert.alert("Success!","You successfully redeemed 1 voucher")
+        }
+      })
+    } else Alert.alert("Insufficient Points","You don't have enough points to redeem this voucher")
+  }
 
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.assistantPointContainer}>
             <Image style={styles.assistantPointImage} source={require('../assets/images/userIcon.png')}/>
-                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> (Username Here) </Text>
+                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> {username} </Text>
             <Image style={styles.assistantPointImage} source={require('../assets/images/coinpoint.png')}/>
-                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> (num) pts.</Text>
+                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> {up} pts.</Text>
             <Image style={styles.assistantPointImage} source={require('../assets/images/coupon.png')}/>
-                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> (num) pcs.</Text>
+                <Text adjustsFontSizeToFit={true} style={styles.voucherContainerText}> {ucop} pcs.</Text>
         </View>
         <View style={styles.voucherContainer}>
             <Text adjustsFontSizeToFit={true} style={styles.voucherContainerHeader}> Vouchers List </Text>
                 <Text adjustsFontSizeToFit={true} style={{fontFamily: 'FredokaOne', fontSize: 11, textAlign: 'center',}}> Exchange your points to usable vouchers! </Text>
-            <View style={styles.couponContainer}>
-                <View style={{flexDirection:'row', top: 4}}>
-                    <Image style={styles.couponLogo} source={require('../assets/images/shopee.png')}/>
-                    <Text adjustsFontSizeToFit={true} style={styles.couponHeader}> Shopee Voucher PHP50 - 1000pts. {'\n'} <Text style={styles.couponDescription}>A 50 pesos worth voucher to be redeemed in {'\n'} Shopee Philippines!</Text>
-                    </Text>
+                <View style={styles.couponContainer}>
+                    <View style={{flexDirection:'row', top: 4}}>
+                        <Image style={styles.couponLogo} source={require('../assets/images/shopee.png')}/>
+                        <Text onPress={vouch} adjustsFontSizeToFit={true} style={styles.couponHeader}> Shopee Voucher PHP50 - 1000pts. {'\n'} <Text style={styles.couponDescription}>A 50 pesos worth voucher to be redeemed in {'\n'} Shopee Philippines!</Text>
+                        </Text>
+                    </View>
                 </View>
-            </View>
             <View style={styles.couponContainer}>
             <View style={{flexDirection:'row', top: 4}}>
                     <Image style={styles.couponLogo} source={require('../assets/images/lazada.png')}/>
-                    <Text adjustsFontSizeToFit={true} style={styles.couponHeader}> Lazada Voucher PHP50 - 1000pts. {'\n'} <Text style={styles.couponDescription}>A 50 pesos worth voucher to be redeemed in {'\n'} Lazada Philippines!</Text>
+                    <Text onPress={vouch} adjustsFontSizeToFit={true} style={styles.couponHeader}> Lazada Voucher PHP50 - 1000pts. {'\n'} <Text style={styles.couponDescription}>A 50 pesos worth voucher to be redeemed in {'\n'} Lazada Philippines!</Text>
                     </Text>
                 </View>
             </View>
@@ -40,6 +62,9 @@ const AssistantVoucher = () => {
             </View>
         </View>
         <Text adjustsFontSizeToFit={true} style={{color: 'black', marginTop: 20, textAlign: 'center', fontFamily:'FredokaOne', fontSize: 18}}> More coupons available soon! </Text>
+            <TouchableOpacity style={styles.rateButton}>
+              <Text style={styles.rateButtonText} onPress={() => navigation.navigate('HelperUI',{ucop,up,details,socket})}> Go back. </Text>
+            </TouchableOpacity>
     </SafeAreaView>
   )
 }
@@ -50,6 +75,28 @@ const styles = StyleSheet.create({
       padding: 24,
       backgroundColor: '#F1CD98',
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    rateButton:{
+      backgroundColor: '#0CCF08',
+      borderRadius: 25,
+      borderColor: "black",
+      borderWidth: 1.5,
+      width: '50%',
+      height: '9%',
+      alignSelf: 'center',
+      elevation: 5,
+      marginTop: 20
+  },
+    rateButtonText:{
+      fontSize: 16,
+      fontFamily: 'FredokaOne',
+      textAlign: 'center',
+      color: '#fff',
+      marginTop: 'auto',
+      marginBottom: 'auto',
+      textShadowColor: 'rgba(0, 0, 0, 0.30)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     assistantPointContainer:{
       marginTop: 20,
