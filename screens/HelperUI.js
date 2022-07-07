@@ -145,15 +145,15 @@ return (
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Name: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text> {details.fullName} </Text>
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 16,}}> {details.fullName} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Sex: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text> {details.sex} </Text>
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 16,}}> {details.sex} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Helper ID: </Text>
                         <View style={styles.idInfoContainer}>
-                            {/* <Text> {details.sex} </Text> */}
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 16,}}> ASSI-03 </Text>
                         </View>
                         
                     </View>
@@ -162,15 +162,15 @@ return (
                     <View style={styles.idUserInfo}>
                         <Text style={styles.idTextInfo}> Age: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text> {details.age} </Text>
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 16,}}> {details.age} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Contact No.: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text> {details.contactNumber} </Text>
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 14 ,}}> {details.contactNumber} </Text>
                         </View>
                         <Text style={styles.idTextInfo}> Trust Factor: </Text>
                         <View style={styles.idInfoContainer}>
-                            <Text>{details.rate}</Text>
+                            <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 16,}}> {details.rate}</Text>
                         </View>
                         
                     </View>
@@ -180,11 +180,11 @@ return (
                 <View style={styles.idAddrAndExtraInfo}>
                     <Text style={styles.idTextInfo}> Address: </Text>
                     <View style={styles.idInfoContainerExtended}>
-                        <Text> {details.address} </Text>
+                        <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 12,}}> {details.address} </Text>
                     </View>
                     <Text style={styles.idTextInfo}> Extra Information: </Text>
                     <View style={styles.idInfoContainerExtended}>
-
+                        <Text style={{fontFamily: 'FredokaOne', marginTop: 'auto', fontSize: 12,}}> Hey! I'm an official assistant! </Text>
                     </View>
                 </View>
                 
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
         marginLeft: 3,
         marginTop: 4,
         backgroundColor: '#C2C2C2',
-        width: 225,
+        width: '95%',
         height: 16,
     },
     idTextInfo:{

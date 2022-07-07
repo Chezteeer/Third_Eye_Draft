@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert} from 'react-native'
+import { StyleSheet, Image, Text, SafeAreaView, StatusBar, View, TouchableOpacity, Alert, Modal, Pressable} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
